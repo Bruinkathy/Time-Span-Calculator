@@ -18,107 +18,75 @@ namespace TimeSpanCalculator
             Initialize();
             
         }
-
+  
+        // Header Welcome and Current Date
         private void Initialize()
         {
-            string Now = DateTime.Now.ToString("dddd, MMMM dd, yyyy");
-            WelcomeNow.Text = "Welcome! Today is " + Now;
+            string now = DateTime.Now.ToString("dddd, MMMM dd, yyyy");
+            WelcomeNow.Text = "Welcome! Today is " + now;
         }
-
 
         private void Today_Click(object sender, EventArgs e)
         {
-            string Now = DateTime.Now.ToString("MM/dd/yyyy");
-            DateBox2.Text = Now;
+            DateBox2.Text = Worker.TodaysDate();
         }
+
+
+
+
 
         private void Calculate_Click(object sender, EventArgs e)
         {
             CalculationBox1.Text = string.Empty;
 
-            DateTime Date1;
-            bool D1Valid = DateTime.TryParse(DateBox1.Text, out Date1);
+            // Instantiates instance of Worker class
 
-            if (D1Valid == false)
+            Worker worker = new Worker(DateBox1.Text, DateBox2.Text);
+
+            // Validates Date 1
+
+            if (worker.IsDate1Valid == false)
             {
                 CalculationBox1.Text = "Please enter a valid start date and try again.";
                 return;
             }
 
-            DateTime Date2;
-            bool D2Valid = DateTime.TryParse(DateBox2.Text, out Date2);
+            // Validates Date 2
 
-            if (D2Valid == false)
+            if (worker.IsDate2Valid == false)
             {
                 CalculationBox1.Text = "Please enter a valid end date and try again.";
                 return;
             }
 
+            // Validates that Date 1 is an earlier date than Date 2
 
-            if (Date1 > Date2)
+            if (worker.IsDate1Later)
             {
                 CalculationBox1.Text = "Please enter a new end date that is after your start date.";
             }
 
-            int Date1Year = Date1.Year;
-            int Date1Month = Date1.Month;
-            int Date1Day = Date1.Day;
+            int years = worker.CalculateYears();
+            int months = worker.CalculateMonths();
+            int days = worker.CalculateDays();
+            double tDays = worker.CalculateTotalDays();
+            string totalDays = tDays.ToString("N0");
+            int totalHours = 0;
+            //double tHours = worker.CalculateTotalHours();
+            //string totalHours = tHours.ToString("N0");
+            string date1 = worker.Date1();
+            string date2 = worker.Date2();
+            int monthsDays = worker.CalculateTotalMonths();
 
-            int Date2Year = Date2.Year;
-            int Date2Month = Date2.Month;
-            int Date2Day = Date2.Day;
 
-            int years = Date2Year - Date1Year;
-            int months = 0;
-            int days;
-
-            int mdays = DateTime.DaysInMonth(Date1Year, Date1Month);
-
-            if (Date1Month > Date2Month)
-            {
-                months = Date2Month + 12 - Date1Month;
-                years = years - 1;
-            }
-            else
-            {
-                months = Date2Month - Date1Month;
-            }
-
-            
-
-            if (Date1Day > Date2Day)
-            {
-                days = (mdays - Date1Day) + Date2Day;
-            }
-            else
-            {
-                days = Date2Day - Date1Day;
-            }
-            
-
-            int leapYear = Date1Year - 1900;
-            if (leapYear % 4 == 0)
-            {
-                if (Date1Month == 2)
-                {
-                    days += 1;
-                }
-            
-        }
-
-            int monthsDays = (years * 12) + months;
-
-            TimeSpan interval = Date2 - Date1;
-
-            string totalDays = interval.Days.ToString("N0");
-            string totalHours = interval.TotalHours.ToString("N0");
-            
-
-            CalculationBox1.Text = "There are " + years + " years, " + months + " months, and " + days + " days between " + Date1.ToString("MMMM dd, yyyy") + " and " + Date2.ToString("MMMM dd, yyyy.") + Environment.NewLine +
-                "That is " + totalDays + " total days, " + monthsDays + " months and " + days + " days, or approximately " + totalHours + " hours.";
+            CalculationBox1.Text = "There are " + years + " years, " + months + " months, and " + days + " days between " + date1 + " and " + date2 + "." +Environment.NewLine +
+                "That is " + totalDays + " total days, " + monthsDays + " months and " + days + " days, or approximately " + totalHours + " total hours.";
 
         }
 
+
+
+        // Copy to Clipboard onClick
         private void CopyClipboard_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(CalculationBox1.Text);
