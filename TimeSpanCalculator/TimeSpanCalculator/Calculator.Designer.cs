@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.WelcomeNow = new System.Windows.Forms.Label();
             this.DateLabel1 = new System.Windows.Forms.Label();
             this.DateBox1 = new System.Windows.Forms.TextBox();
@@ -37,6 +38,9 @@
             this.CopyClipboard = new System.Windows.Forms.Button();
             this.Calculate = new System.Windows.Forms.Button();
             this.Today = new System.Windows.Forms.Button();
+            this.buttonClear = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // WelcomeNow
@@ -66,7 +70,7 @@
             this.DateBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DateBox1.Location = new System.Drawing.Point(477, 126);
             this.DateBox1.Name = "DateBox1";
-            this.DateBox1.Size = new System.Drawing.Size(111, 22);
+            this.DateBox1.Size = new System.Drawing.Size(135, 22);
             this.DateBox1.TabIndex = 2;
             // 
             // DateLabel2
@@ -84,7 +88,7 @@
             this.DateBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DateBox2.Location = new System.Drawing.Point(477, 183);
             this.DateBox2.Name = "DateBox2";
-            this.DateBox2.Size = new System.Drawing.Size(111, 22);
+            this.DateBox2.Size = new System.Drawing.Size(135, 22);
             this.DateBox2.TabIndex = 5;
             // 
             // CalculationBox1
@@ -92,8 +96,9 @@
             this.CalculationBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CalculationBox1.Location = new System.Drawing.Point(112, 290);
             this.CalculationBox1.Name = "CalculationBox1";
-            this.CalculationBox1.Size = new System.Drawing.Size(581, 100);
+            this.CalculationBox1.Size = new System.Drawing.Size(581, 190);
             this.CalculationBox1.TabIndex = 7;
+            this.CalculationBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CopyClipboard
             // 
@@ -101,9 +106,9 @@
             this.CopyClipboard.BackColor = System.Drawing.Color.Tan;
             this.CopyClipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CopyClipboard.ForeColor = System.Drawing.Color.Snow;
-            this.CopyClipboard.Location = new System.Drawing.Point(115, 402);
+            this.CopyClipboard.Location = new System.Drawing.Point(115, 483);
             this.CopyClipboard.Name = "CopyClipboard";
-            this.CopyClipboard.Size = new System.Drawing.Size(132, 36);
+            this.CopyClipboard.Size = new System.Drawing.Size(132, 44);
             this.CopyClipboard.TabIndex = 8;
             this.CopyClipboard.Text = "Copy to Clipboard";
             this.CopyClipboard.UseVisualStyleBackColor = false;
@@ -114,9 +119,9 @@
             this.Calculate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.Calculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Calculate.ForeColor = System.Drawing.Color.Snow;
-            this.Calculate.Location = new System.Drawing.Point(477, 230);
+            this.Calculate.Location = new System.Drawing.Point(477, 242);
             this.Calculate.Name = "Calculate";
-            this.Calculate.Size = new System.Drawing.Size(192, 37);
+            this.Calculate.Size = new System.Drawing.Size(192, 45);
             this.Calculate.TabIndex = 9;
             this.Calculate.Text = "Calculate";
             this.Calculate.UseVisualStyleBackColor = false;
@@ -127,19 +132,33 @@
             this.Today.BackColor = System.Drawing.Color.LightSeaGreen;
             this.Today.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Today.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.Today.Location = new System.Drawing.Point(594, 176);
+            this.Today.Location = new System.Drawing.Point(618, 174);
             this.Today.Name = "Today";
-            this.Today.Size = new System.Drawing.Size(75, 36);
+            this.Today.Size = new System.Drawing.Size(75, 40);
             this.Today.TabIndex = 10;
             this.Today.Text = "Today";
             this.Today.UseVisualStyleBackColor = false;
             this.Today.Click += new System.EventHandler(this.Today_Click);
             // 
+            // buttonClear
+            // 
+            this.buttonClear.BackColor = System.Drawing.Color.DarkMagenta;
+            this.buttonClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonClear.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.buttonClear.Location = new System.Drawing.Point(284, 483);
+            this.buttonClear.Name = "buttonClear";
+            this.buttonClear.Size = new System.Drawing.Size(116, 44);
+            this.buttonClear.TabIndex = 11;
+            this.buttonClear.Text = "Start Again";
+            this.buttonClear.UseVisualStyleBackColor = false;
+            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            // 
             // Calculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 623);
+            this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.Today);
             this.Controls.Add(this.Calculate);
             this.Controls.Add(this.CopyClipboard);
@@ -167,6 +186,9 @@
         private System.Windows.Forms.Button CopyClipboard;
         private System.Windows.Forms.Button Calculate;
         private System.Windows.Forms.Button Today;
+        private System.Windows.Forms.Button buttonClear;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolTip toolTip2;
     }
 }
 

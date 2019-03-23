@@ -15,13 +15,32 @@ namespace TimeSpanCalculator
         /// <param name="date2">Second Date</param>
         public Worker(string date1, string date2)
         {
-            _date1 = date1;
-            _date2 = date2;
+            _date1string = date1;
+            _date2string = date2;
+
+            DateTime firstDate;
+            bool firstDateComverted = DateTime.TryParse(_date1string, out firstDate);
+            
+            if (firstDateComverted)
+            {
+                Date1 = firstDate;
+            }
+
+            DateTime secondDate;
+            bool secondDateConverted = DateTime.TryParse(_date2string, out secondDate);
+
+            if (secondDateConverted)
+            {
+                Date2 = secondDate;
+            }
         }
 
-        private string _date1;
+        private string _date1string;
+        private string _date2string;
 
-        private string _date2;
+        public readonly DateTime? Date1 = null;
+        public readonly DateTime? Date2 = null;
+
 
         /// <summary>
         /// Validates Date1 Input
@@ -30,9 +49,15 @@ namespace TimeSpanCalculator
         {
             get
             {
-                DateTime result;
-                bool D1Valid = DateTime.TryParse(_date1, out result);
-                return D1Valid;
+                if (Date1.HasValue)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
             }
         }
 
@@ -43,11 +68,17 @@ namespace TimeSpanCalculator
         {
             get
             {
-                DateTime result;
-                bool D2Valid = DateTime.TryParse(_date2, out result);
-                return D2Valid;
+                if (Date2.HasValue)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
+
 
         /// <summary>
         /// Validates that Date1 is earlier than Date2
@@ -56,144 +87,57 @@ namespace TimeSpanCalculator
         {
             get
             {
-                DateTime date1;
-                DateTime.TryParse(_date1, out date1);
-                DateTime date2;
-                DateTime.TryParse(_date2, out date2);
-                bool DateLater = date1 > date2;
+                bool DateLater = Date1 > Date2;
                 return DateLater;
             }
         }
 
-        /// <summary>
-        /// Provides Current Date in Month Day Year format
-        /// </summary>
-        /// <returns></returns>
-        public static string TodaysDate()
-        {
-            string now = DateTime.Now.ToString("MMMM dd, yyyy");
-            return now;
-        }
 
-        public string Date1()
+        public TimeSpan Interval()   
         {
-                DateTime date1;
-                DateTime.TryParse(_date1, out date1);
-                string fDate1 = date1.ToString("MMMM dd, yyyy");
-                return fDate1; 
+            //CalculateTotalDays()
+            TimeSpan interval = (TimeSpan)(Date2 - Date1);
+            return interval;
         }
-
-        public string Date2()
-        {
-            DateTime date2;
-            DateTime.TryParse(_date2, out date2);
-            string fDate2 = date2.ToString("MMMM dd, yyyy");
-            return fDate2;
-        }
-
-        public double CalculateTotalDays()
-        {
-            DateTime date1;
-            DateTime.TryParse(_date1, out date1);
-            DateTime date2;
-            DateTime.TryParse(_date2, out date2);
-            TimeSpan interval = date2 - date1;
-            double intervalDays = interval.Days;
-            return intervalDays; 
-        }
-
-        //public int CalculateTotalHours()
-        //{
-        //    DateTime date1;
-        //    DateTime.TryParse(_date1, out date1);
-        //    DateTime date2;
-        //    DateTime.TryParse(_date2, out date2);
-        //    TimeSpan interval = date2 - date1;
-        //    int totalHours = interval.TotalHours;
-        //    return totalHours;
-        //}
         
         public int CalculateYears()
         {
-            DateTime date1;
-            DateTime.TryParse(_date1, out date1);
-            DateTime date2;
-            DateTime.TryParse(_date2, out date2);
-            int date1Year = date1.Year;
-            int date1Month = date1.Month;
-            int date2Year = date2.Year;
-            int date2Month = date2.Month;
             int years;
 
-            if (date1Month > date2Month)
+            if (Date1.Value.Month > Date2.Value.Month)
             {
-                years = date2Year - date1Year - 1;
+                years = Date2.Value.Year - Date1.Value.Year - 1;
             }
             else
             {
-                years = date2Year - date1Year;
+                years = Date2.Value.Year - Date1.Value.Year;
             }
             return years;
         }
 
         public int CalculateTotalMonths()
         {
-            DateTime date1;
-            DateTime.TryParse(_date1, out date1);
-            DateTime date2;
-            DateTime.TryParse(_date2, out date2);
-
-            int date1Year = date1.Year;
-            int date1Month = date1.Month;
-            int date1Day = date1.Day;
-            int date2Year = date2.Year;
-            int date2Month = date2.Month;
-            int date2Day = date2.Day;
-
-            // Calculate Years
-            int years = date2Year - date1Year;
-
             // Calculate Months from Years
-            int monthsfromYears = years * 12;
-            int months;
-
-            if (date1Month > date2Month)
-            {
-                months = date2Month + 12 - date1Month;
-            }
-            else
-            {
-                months = date2Month - date1Month;
-            }
-
+            int monthsfromYears = CalculateYears() * 12;
+            int months = CalculateMonths();
             int totalMonths = monthsfromYears + months;
             return totalMonths;
         }
 
         public int CalculateMonths()
         {
-            DateTime date1;
-            DateTime.TryParse(_date1, out date1);
-            DateTime date2;
-            DateTime.TryParse(_date2, out date2);
-
-            int date1Month = date1.Month;
-            int date1Day = date1.Day;
-            int date2Month = date2.Month;
-            int date2Day = date2.Day;
-
             int months;
 
-            if (date1Month > date2Month)
+            if (Date1.Value.Month > Date2.Value.Month)
             {
-                months = date2Month + 12 - date1Month;
+                months = Date2.Value.Month + 12 - Date1.Value.Month;
             }
             else
             {
-                months = date2Month - date1Month;
+                months = Date2.Value.Month - Date1.Value.Month;
             }
 
-            if (date1Day > date2Day)
+            if (Date1.Value.Day > Date2.Value.Day)
             {
                 months -= 1;
             }
@@ -203,32 +147,24 @@ namespace TimeSpanCalculator
 
         public int CalculateDays()
         {
-            DateTime date1;
-            DateTime.TryParse(_date1, out date1);
-            DateTime date2;
-            DateTime.TryParse(_date2, out date2);
 
-            int date1Year = date1.Year;
-            int date1Month = date1.Month;
-            int date1Day = date1.Day;
-            int date2Month = date2.Month;
-            int date2Day = date2.Day;
             int days;
          
             // Calculate Days in Month
-            int mdays = DateTime.DaysInMonth(date1Year, date1Month);
+            int mdays = DateTime.DaysInMonth(Date1.Value.Year, Date1.Value.Month);
 
             // Calculate Days in Month1
-            if (date1Day > date2Day)
+            if (Date1.Value.Day > Date2.Value.Day)
             {
-                days = (mdays - date1Day) + date2Day;
+                days = (mdays - Date1.Value.Day) + Date2.Value.Day;
             }
             else
             {
-                days = date2Day - date1Day;
+                days = Date2.Value.Day - Date1.Value.Day;
             }
 
             return days;
-        }  
+        }
+
     }
 }
